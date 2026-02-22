@@ -2,6 +2,7 @@ import time
 import random
 import re
 import sys
+import os
 
 class LuciferInterpreter:
     def __init__(self, code):
@@ -61,10 +62,28 @@ class LuciferInterpreter:
                         # but we effectively 'teleport' the PC.
                         jumped = True
                 
-                # ... (Other commands: GREED, PRIDE, etc.)
-                elif cmd == "GREED": self.vars[args[0]] = self._get_val(args[1])
-                elif cmd == "PRIDE": print(self._get_val(args[0]))
-                elif cmd == "LUST": self.vars[args[0]] = random.randint(self._get_val(args[1]), self._get_val(args[2]))
+                if cmd == "GREED":
+                    self.vars[args[0]] = self._get_val(args[1])
+                
+                elif cmd == "PRIDE":
+                    print(self._get_val(args[0]))
+
+                elif cmd == "GLUTTONY":
+                    self.vars[args[0]] %= self._get_val(args[1])
+
+                elif cmd == "LUST":
+                    low = self._get_val(args[1])
+                    high = self._get_val(args[2])
+                    self.vars[args[0]] = random.randint(low, high)
+
+                elif cmd == "ENVY":
+                    try:
+                        self.vars[args[0]] = int(input(">> "))
+                    except ValueError:
+                        print("INVALID OFFERING (Input must be an integer)")
+
+                elif cmd == "SLOTH":
+                    time.sleep(self._get_val(args[0]))
 
             elif line.startswith("JUDGE"):
                 # Clean the expression of the command and the brace
@@ -126,9 +145,15 @@ if __name__ == "__main__":
     luci = LuciferInterpreter("")
     if len(sys.argv) > 1:
         # Load from file
-        with open(sys.argv[1], 'r') as f:
-            luci.lines = [l.strip() for l in f.readlines() if l.strip()]
-            luci._find_gates()
-            luci.run()
+        if sys.argv[1] == "--version":
+            print("ALPHA 1.1")
+        else:
+            try:
+                with open(sys.argv[1], 'r') as f:
+                    luci.lines = [l.strip() for l in f.readlines() if l.strip()]
+                    luci._find_gates()
+                    luci.run()
+            except Exception as e:
+                print(e)
     else:
         luci.repl()
