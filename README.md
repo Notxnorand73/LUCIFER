@@ -30,7 +30,8 @@ LUCIFER is an esolang based on the 7 deadly sins as well as Dante's Inferno.
 LUCIFER has 2 variables, SIN and ZEN.
 
 ## Installation
-
+Requires Python and accessible via `python` command.<br>
+<br>
 ### Windows
 Download the files LUCIFER.py and luci.bat and make a folder in "C:" then add the files there.<br>
 You can call the folder anything.<br>
@@ -52,4 +53,20 @@ If you did the steps correctly then this screen should show:<br>
 `LUCIFER>                                               `<br>
 <br>
 ### Mac/Linux
-Not implemented because I just dont feel like it.
+Download the files LUCIFER.py and luci.<br>
+Open the terminal and open the directory and type:<br>
+`chmod +x luci`<br>
+Move it to a directory in your PATH (Ex.)<br>
+`sudo mv luci /usr/local/bin/`<br>
+Open a new terminal and type "luci" to check if it is running.<br>
+If you did the steps correctly then this screen should show:<br>
+`      \                                                `<br>
+`   _,--=-,_                                            `<br>
+`  /       =\                                           `<br>
+` :LUCIFER-##;                                          `<br>
+` ;  7DS -=##;                                          `<br>
+`  \_  -==##/                                           `<br>
+`    '==##                                              `<br>
+`                                                       `<br>
+`--- LUCIFER REPL (Type RUN to execute, END to exit) ---`<br>
+`LUCIFER>                                               `
