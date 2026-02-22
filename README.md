@@ -29,44 +29,92 @@ LUCIFER is an esolang based on the 7 deadly sins as well as Dante's Inferno.
 
 LUCIFER has 2 variables, SIN and ZEN.
 
-## Installation
-Requires Python and accessible via `python` command.<br>
-<br>
-### Windows
-Download the files LUCIFER.py and luci.bat and make a folder in "C:" then add the files there.<br>
-You can call the folder anything.<br>
-Press win+S and search for the "Edit the system environment variables"<br>
-Then open and click the buton labeled "Environment variables"<br>
-Look for Path in the user section and click it and press Edit.<br>
-Click New and paste the path to the folder.<br>
-Click done on all tabs then open a new terminal and type "luci" to check if it is running.<br>
-If you did the steps correctly then this screen should show:<br>
-`      \                                                `<br>
-`   _,--=-,_                                            `<br>
-`  /       =\                                           `<br>
-` :LUCIFER-##;                                          `<br>
-` ;  7DS -=##;                                          `<br>
-`  \_  -==##/                                           `<br>
-`    '==##                                              `<br>
-`                                                       `<br>
-`--- LUCIFER REPL (Type RUN to execute, END to exit) ---`<br>
-`LUCIFER>                                               `<br>
-<br>
-### Mac/Linux
-Download the files LUCIFER.py and luci.<br>
-Open the terminal and open the directory and type:<br>
-`chmod +x luci`<br>
-Move it to a directory in your PATH (Ex.)<br>
-`sudo mv luci /usr/local/bin/`<br>
-Open a new terminal and type "luci" to check if it is running.<br>
-If you did the steps correctly then this screen should show:<br>
-`      \                                                `<br>
-`   _,--=-,_                                            `<br>
-`  /       =\                                           `<br>
-` :LUCIFER-##;                                          `<br>
-` ;  7DS -=##;                                          `<br>
-`  \_  -==##/                                           `<br>
-`    '==##                                              `<br>
-`                                                       `<br>
-`--- LUCIFER REPL (Type RUN to execute, END to exit) ---`<br>
-`LUCIFER>                                               `
+# Installation
+
+## Prerequisites
+
+- **Python 3.6** or higher (required)
+- **Recommended:** Python 3.10+ for better performance and security
+- Python must be accessible via the `python` command
+
+## Quick Install (Windows)
+
+1. Download `LUCIFER.py` and `luci.bat`
+2. Put them in a folder (e.g., `C:\Lucifer`)
+3. Add that folder to your User PATH
+4. Open a new terminal and run:
+
+   luci
+
+## Windows
+
+1. **Download and Setup**
+   - Download `LUCIFER.py` and `luci.bat`
+   - Create a folder in `C:` (name it LUCIFER)
+   - Place both files in this folder
+
+2. **Add to System PATH**
+   - Press <kbd>Win</kbd> + <kbd>S</kbd> to open Search
+   - Search for "Edit the system environment variables"
+   - Click "Environment Variables"
+   - Under "User variables," select `Path` and click "Edit"
+   - Click "New" and paste the path "C:\LUCIFER"
+   - Click "OK" to save changes
+
+3. **Verify Installation**
+   - Open a new terminal and type `luci`
+   - You should see this welcome screen:
+
+```
+      \
+   _,--=-,_
+  /       =\
+ :LUCIFER-##;
+ ;  7DS -=##;
+  \_  -==##/
+    '==##
+
+--- LUCIFER REPL (Type RUN to execute, END to exit) ---
+LUCIFER>
+```
+
+## Mac/Linux
+
+1. **Download and Setup**
+   - Download `LUCIFER.py` and `luci`
+   - Open your terminal and navigate to the directory
+
+2. **Make Script Executable**
+   ```bash
+   chmod +x luci
+   ```
+
+3. **Install to PATH**
+   ```bash
+   sudo mkdir -p /usr/local/bin/LUCIFER/
+   sudo mv luci /usr/local/bin/LUCIFER/
+   sudo mv LUCIFER.py /usr/local/bin/LUCIFER/
+   ```
+
+4. **Verify Installation**
+   - Open a new terminal and type `luci`
+   - You should see this welcome screen:
+
+```
+      \
+   _,--=-,_
+  /       =\
+ :LUCIFER-##;
+ ;  7DS -=##;
+  \_  -==##/
+    '==##
+
+--- LUCIFER REPL (Type RUN to execute, END to exit) ---
+LUCIFER>
+```
+
+## Running a File
+
+To execute a `.luci` file:
+
+luci myprogram.luci
