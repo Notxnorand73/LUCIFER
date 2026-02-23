@@ -41,23 +41,23 @@ def check_and_update(flag=False):
                     f.writelines(lines)
                 
                 print(f"UPDATED TO {remote_version}!")
-            elif flag:
-                # Fetch the latest LUCIFER.py
-                py_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/LUCIFER.py"
-                py_response = requests.get(py_url, timeout=5)
-                py_response.raise_for_status()
+        elif flag:
+            # Fetch the latest LUCIFER.py
+            py_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/LUCIFER.py"
+            py_response = requests.get(py_url, timeout=5)
+            py_response.raise_for_status()
+            
+            # Write to current file
+            script_path = os.path.abspath(sys.argv[0])
+            with open(script_path, 'w') as f:
+                f.write(py_response.text)
+            with open(script_path, "r") as f:
+                lines = f.readlines()
+            lines = [line for line in lines if line.strip()]
+            with open(script_path, "w") as f:
+                f.writelines(lines)
                 
-                # Write to current file
-                script_path = os.path.abspath(sys.argv[0])
-                with open(script_path, 'w') as f:
-                    f.write(py_response.text)
-                with open(script_path, "r") as f:
-                    lines = f.readlines()
-                lines = [line for line in lines if line.strip()]
-                with open(script_path, "w") as f:
-                    f.writelines(lines)
-                
-                print(f"UPDATED TO {remote_version}!")
+            print(f"UPDATED TO {remote_version}!")
         else:
             print(f"YOU HAVE THE LATEST VERSION: {version}")
     except Exception as e:
