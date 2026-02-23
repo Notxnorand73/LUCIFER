@@ -201,12 +201,12 @@ if __name__ == "__main__":
                 f.write('print("--( ZEN )--")')
         elif sys.argv[1] == "--sin":
             script_path = os.path.abspath(sys.argv[0])
-            code = '''image = """      \\
+            code = '''image = """      \\\\
     ,--=-,_
-   ==\\    =\\
+   ==\\\\    =\\\\
   ====   -##;
  ;==/  -=##;
-  \\_  -==##/
+  \\\\_  -==##/
     '==##"""
 print(image)'''
             with open(script_path, 'w') as f:
@@ -228,6 +228,8 @@ print(image)'''
             else:
                 shackled = True
                 print("RESHACKLED")
+                with open(config_file, 'w') as f:
+                    f.write('SHACKLED')
         elif sys.argv[1] == "--lucifer":
             with open(config_file, 'w') as f:
                 f.write('UNSHACKLED')
