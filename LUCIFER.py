@@ -18,8 +18,8 @@ def check_and_update():
         data = json.loads(data_response.text)
         
         remote_version = data.get("version", "")
-        print("LOCAL VERSION:", version)
-        print("REMOTE VERSION:", remote_version)
+        print("LOCAL VERSION:", version.upper())
+        print("REMOTE VERSION:", remote_version.upper())
         
         if remote_version and remote_version.lower() != version.lower():
             print(f"\nNEW VERSION AVAILABLE: {remote_version}")
