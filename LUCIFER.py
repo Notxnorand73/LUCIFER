@@ -3,6 +3,40 @@ import random
 import re
 import sys
 import os
+import requests
+import json
+
+version = "ALPHA 1.1"
+
+def check_and_update():
+    """Check for updates and update LUCIFER.py if a newer version is available."""
+    try:
+        # Fetch version info from data.json
+        data_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/data.json"
+        data_response = requests.get(data_url, timeout=5)
+        data_response.raise_for_status()
+        data = json.loads(data_response.text)
+        
+        remote_version = data.get("version", "")
+        
+        if remote_version and remote_version != version:
+            print(f"\nNEW VERSION AVAILABLE, UPDATING TO {remote_version}...")
+            
+            # Fetch the latest LUCIFER.py
+            py_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/LUCIFER.py"
+            py_response = requests.get(py_url, timeout=5)
+            py_response.raise_for_status()
+            
+            # Write to current file
+            script_path = os.path.abspath(sys.argv[0])
+            with open(script_path, 'w') as f:
+                f.write(py_response.text)
+            
+            print(f"Successfully updated to {remote_version}!")
+        else:
+            print(f"YOU HAVE THE LATEST VERSION: {version}")
+    except Exception as e:
+        print(f"FAILED: {e}")
 
 class LuciferInterpreter:
     def __init__(self, code):
@@ -134,10 +168,10 @@ class LuciferInterpreter:
 logo = [
     "      \\",
     "   _,--=-,_",
-    "  /       =\ ",
+    "  /       =\\ ",
     " :LUCIFER-##;",
     " ;  7DS -=##;",
-    "  \_  -==##/",
+    "  \\_  -==##/",
     "    '==##"
 ]
 
@@ -146,7 +180,9 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         # Load from file
         if sys.argv[1] == "--version":
-            print("ALPHA 1.1")
+            print(version)
+        elif sys.argv[1] == "--update":
+            check_and_update()
         else:
             try:
                 with open(sys.argv[1], 'r') as f:
