@@ -6,7 +6,7 @@ import os
 import requests
 import json
 
-version = "ALPHA 1.2"
+version = "ALPHA 1.1"
 
 def check_and_update():
     """Check for updates and update LUCIFER.py if a newer version is available."""
@@ -19,7 +19,7 @@ def check_and_update():
         
         remote_version = data.get("version", "")
         
-        if remote_version and remote_version != version:
+        if remote_version and remote_version.lower() != version.lower():
             print(f"\nNEW VERSION AVAILABLE, UPDATING TO {remote_version}...")
             
             # Fetch the latest LUCIFER.py
@@ -193,4 +193,3 @@ if __name__ == "__main__":
                 print(e)
     else:
         luci.repl()
-
