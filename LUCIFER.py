@@ -34,6 +34,11 @@ def check_and_update():
                 script_path = os.path.abspath(sys.argv[0])
                 with open(script_path, 'w') as f:
                     f.write(py_response.text)
+                with open(script_path, "r") as f:
+                    lines = f.readlines()
+                lines = [line for line in lines if line.strip()]
+                with open(script_path, "w") as f:
+                    f.writelines(lines)
                 
                 print(f"Successfully updated to {remote_version}!")
         else:
