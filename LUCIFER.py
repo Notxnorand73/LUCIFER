@@ -5,7 +5,7 @@ import sys
 import os
 import requests
 import json
-version = "ALPHA 1.2"
+version = "ALPHA 1.3"
 def check_and_update(flag=False):
     """Check for updates and update LUCIFER.py if a newer version is available."""
     try:
@@ -179,6 +179,22 @@ if __name__ == "__main__":
             check_and_update()
         elif sys.argv[1] == "--forceupdate":
             check_and_update(flag=True)   
+        elif sys.argv[1] == "--zen":
+            script_path = os.path.abspath(sys.argv[0])
+            with open(script_path, 'w') as f:
+                f.write('print("--( ZEN )--")')
+        elif sys.argv[1] == "--sin":
+            script_path = os.path.abspath(sys.argv[0])
+            code = '''image = """      \\
+    ,--=-,_
+   ==\    =\
+  ====   -##;
+ ;==/  -=##;
+  \_  -==##/
+    '==##"""
+print(image)'''
+            with open(script_path, 'w') as f:
+                f.write(code)
         else:
             try:
                 with open(sys.argv[1], 'r') as f:
