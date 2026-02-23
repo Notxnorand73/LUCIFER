@@ -6,7 +6,7 @@ import os
 import shutil
 import requests
 import json
-version = "ALPHA 1.4"
+version = "ALPHA 1.0"
 config_file = "LUCIFER.txt"
 if not os.path.exists(config_file):
     with open(config_file, 'w') as f:
@@ -188,6 +188,19 @@ logo = [
     "  \\_  -==##/",
     "    '==##"
 ]
+horns = [
+    " /                \\",
+    "/|                |\\",
+    "|\\                /|",
+    "| \\              / |",
+    "\\  '\\_        _/'  /",
+    " \\    '\\    /'    /",
+    "  '\   |    |   /'",
+    "    '-=/    \\=-'",
+    "",
+    "      .      .",
+    "      '      '"
+]
 if __name__ == "__main__":
     luci = LuciferInterpreter("", lucifer=shackled)
     if len(sys.argv) > 1:
@@ -238,6 +251,30 @@ print(image)'''
                 f.write('UNSHACKLED')
         elif sys.argv[1] == "--shackle":
             print(shackled)
+        elif sys.argv[1] == "--purgatory":
+            will_timeout = random.choice([True, False])
+            timeout = 0
+            for i in range(600):
+                os.system("cls" if os.name == "nt" else "clear")
+                if i > 300 and will_timeout:
+                    timeout = random.randint(1, 50)
+                    if timeout == 25:
+                        raise TimeoutError("...")
+
+                time_left = 600-i
+                if time_left == 426:
+                    print("~ 666 ~")
+                else:
+                    print(f"{(time_left//60):02}:{(time_left%60):02}")
+                time.sleep(1)
+        elif sys.argv[1] == "--free":
+            while True:
+                try:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    for i in horns:
+                        print(i)
+                except BaseException:
+                    pass
         else:
             try:
                 with open(sys.argv[1], 'r') as f:
