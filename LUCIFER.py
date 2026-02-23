@@ -162,7 +162,10 @@ class LuciferInterpreter:
                 self.pc += 1
     def repl(self):
         print("\n".join(logo))
-        print("\n--- LUCIFER REPL (Type RUN to execute, END to exit) ---")
+        if shackled:
+            print("\n--- LUCIFER REPL (Type RUN to execute, END to exit) ---")
+        else:
+            print("\n--- ####### #### ##### ### ## ######## ### ## ##### ---")
         while True:
             program_lines = []
             while True:
