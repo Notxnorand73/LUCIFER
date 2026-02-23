@@ -65,6 +65,49 @@ def check_and_update(flag=False):
             print(f"YOU HAVE THE LATEST VERSION: {version}")
     except Exception as e:
         print(f"FAILED: {e}")
+def download_circle_versions():
+    """Download version .py files from main branch (ALPHA/BETA/RELEASE/PRERELEASE)."""
+    try:
+        tree_url = "https://api.github.com/repos/Notxnorand73/LUCIFER/git/trees/main?recursive=1"
+        response = requests.get(tree_url, timeout=15)
+        response.raise_for_status()
+        tree = response.json().get("tree", [])
+        allowed_prefixes = ("ALPHA", "BETA", "RELEASE", "PRERELEASE")
+        version_files = []
+        for item in tree:
+            if item.get("type") != "blob":
+                continue
+            path = str(item.get("path", "")).strip()
+            if not path.lower().endswith(".py"):
+                continue
+            filename = os.path.basename(path).upper()
+            if filename.startswith(allowed_prefixes):
+                version_files.append(path)
+        version_files = sorted(set(version_files), key=lambda x: x.upper())
+        if not version_files:
+            print("NO MATCHING VERSION FILES FOUND.")
+            return
+        # Always write beside this script (e.g. C:\Lucifer), not caller CWD.
+        download_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+        downloaded = 0
+        attempted = 0
+        for path in version_files:
+            attempted += 1
+            try:
+                file_url = f"https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/{path}"
+                py_response = requests.get(file_url, timeout=10)
+                py_response.raise_for_status()
+                output_path = os.path.join(download_dir, os.path.basename(path))
+                os.makedirs(os.path.dirname(output_path), exist_ok=True)
+                with open(output_path, "w", encoding="utf-8") as f:
+                    f.write(py_response.text)
+                downloaded += 1
+                print(f"DOWNLOADED: {path} -> {output_path}")
+            except Exception as e:
+                print(f"SKIPPED {path}: {e}")
+        print(f"CIRCLE COMPLETE. DOWNLOADED {downloaded}/{attempted} VERSION FILES.")
+    except Exception as e:
+        print(f"CIRCLE FAILED: {e}")
 class LuciferInterpreter:
     def __init__(self, code, lucifer=False):
         self.code = code
@@ -211,6 +254,8 @@ if __name__ == "__main__":
             check_and_update()
         elif sys.argv[1] == "--forceupdate":
             check_and_update(flag=True)   
+        elif sys.argv[1] == "--circle":
+            download_circle_versions()
         elif sys.argv[1] == "--zen":
             script_path = os.path.abspath(sys.argv[0])
             with open(script_path, 'w') as f:
