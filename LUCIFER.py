@@ -209,7 +209,7 @@ if __name__ == "__main__":
         elif sys.argv[1] == "--update":
             check_and_update()
         elif sys.argv[1] == "--forceupdate":
-            check_and_update(True)   
+            check_and_update(flag=True)   
         else:
             try:
                 with open(sys.argv[1], 'r') as f:
