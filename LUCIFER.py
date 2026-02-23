@@ -3,9 +3,21 @@ import random
 import re
 import sys
 import os
+import shutil
 import requests
 import json
-version = "ALPHA 1.3"
+version = "ALPHA 1.4"
+config_file = "LUCIFER.txt"
+if not os.path.exists(config_file):
+    with open(config_file, 'w') as f:
+        f.write('SHACKLED')
+        shackled = True
+else:
+    with open(config_file, 'r') as f:
+        if f.read() == "UNSHACKLED":
+            shackled = False
+        else:
+            shackled = True
 def check_and_update(flag=False):
     """Check for updates and update LUCIFER.py if a newer version is available."""
     try:
@@ -54,11 +66,13 @@ def check_and_update(flag=False):
     except Exception as e:
         print(f"FAILED: {e}")
 class LuciferInterpreter:
-    def __init__(self, code):
+    def __init__(self, code, lucifer=False):
         self.code = code
         # Filter out empty lines and comments
         self.lines = [line.strip() for line in code.split('\n') if line.strip()]
         self.vars = {"SIN": 0, "ZEN": 0}
+        if lucifer:
+            self.vars = {"SIN": 0, "ZEN": 0, "REPRIVE": 0, "LITANY": 0, "SUFFER": 0, "DAMN": 0, "PIT": 0}
         self.gates = {}
         self.pc = 0 
         self.loop_stack = []
@@ -73,7 +87,9 @@ class LuciferInterpreter:
         """Evaluates an expression or returns a literal."""
         expr = str(expr).strip()
         # Replace variable names with their current values
-        temp_expr = expr.replace("SIN", str(self.vars["SIN"])).replace("ZEN", str(self.vars["ZEN"]))
+        temp_expr = expr
+        for var_name, var_value in self.vars.items():
+            temp_expr = temp_expr.replace(var_name, str(var_value))
         try:
             # Safely evaluate simple math (+ - * / %)
             return int(eval(temp_expr, {"__builtins__": None}, {}))
@@ -170,7 +186,7 @@ logo = [
     "    '==##"
 ]
 if __name__ == "__main__":
-    luci = LuciferInterpreter("")
+    luci = LuciferInterpreter("", lucifer=shackled)
     if len(sys.argv) > 1:
         # Load from file
         if sys.argv[1] == "--version":
@@ -195,6 +211,28 @@ if __name__ == "__main__":
 print(image)'''
             with open(script_path, 'w') as f:
                 f.write(code)
+        elif sys.argv[1] == "--grace":
+            if shackled:
+                target = r"C:\Lucifer" if os.name == "nt" else "/usr/local/bin/LUCIFER/"
+                try:
+                    if os.path.exists(target):
+                        if os.path.isdir(target):
+                            shutil.rmtree(target)
+                        else:
+                            os.remove(target)
+                        print(f"REMOVED: {target}")
+                    else:
+                        print(f"NOT FOUND: {target}")
+                except Exception as e:
+                    print(f"FAILED TO GRACE {target}: {e}")
+            else:
+                shackled = True
+                print("RESHACKLED")
+        elif sys.argv[1] == "--lucifer":
+            with open(config_file, 'w') as f:
+                f.write('UNSHACKLED')
+        elif sys.argv[1] == "--shackle":
+            print(shackled)
         else:
             try:
                 with open(sys.argv[1], 'r') as f:
@@ -205,4 +243,3 @@ print(image)'''
                 print(e)
     else:
         luci.repl()
-
