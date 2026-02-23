@@ -187,10 +187,10 @@ if __name__ == "__main__":
             script_path = os.path.abspath(sys.argv[0])
             code = '''image = """      \\
     ,--=-,_
-   ==\    =\
+   ==\\    =\\
   ====   -##;
  ;==/  -=##;
-  \_  -==##/
+  \\_  -==##/
     '==##"""
 print(image)'''
             with open(script_path, 'w') as f:
@@ -205,3 +205,4 @@ print(image)'''
                 print(e)
     else:
         luci.repl()
+
