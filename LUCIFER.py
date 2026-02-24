@@ -6,7 +6,7 @@ import os
 import shutil
 import requests
 import json
-version = "ALPHA 1.0"
+version = "ALPHA 1.1"
 config_file = "LUCIFER.txt"
 if not os.path.exists(config_file):
     with open(config_file, 'w') as f:
@@ -19,9 +19,7 @@ else:
         else:
             shackled = True
 def check_and_update(flag=False):
-    """Check for updates and update LUCIFER.py if a newer version is available."""
     try:
-        # Fetch version info from data.json
         data_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/data.json"
         data_response = requests.get(data_url, timeout=5)
         data_response.raise_for_status()
@@ -32,11 +30,9 @@ def check_and_update(flag=False):
         if remote_version and remote_version.lower() != version.lower():
             print(f"\nNEW VERSION AVAILABLE: {remote_version}")
             if input("UPDATE (y/n):").lower() == "y":
-                # Fetch the latest LUCIFER.py
                 py_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/LUCIFER.py"
                 py_response = requests.get(py_url, timeout=5)
                 py_response.raise_for_status()
-                # Write to current file
                 script_path = os.path.abspath(sys.argv[0])
                 with open(script_path, 'w') as f:
                     f.write(py_response.text)
@@ -47,11 +43,9 @@ def check_and_update(flag=False):
                     f.writelines(lines)
                 print(f"UPDATED TO {remote_version}!")
         elif flag:
-            # Fetch the latest LUCIFER.py
             py_url = "https://raw.githubusercontent.com/Notxnorand73/LUCIFER/main/LUCIFER.py"
             py_response = requests.get(py_url, timeout=5)
             py_response.raise_for_status()
-            # Write to current file
             script_path = os.path.abspath(sys.argv[0])
             with open(script_path, 'w') as f:
                 f.write(py_response.text)
@@ -66,7 +60,6 @@ def check_and_update(flag=False):
     except Exception as e:
         print(f"FAILED: {e}")
 def download_circle_versions():
-    """Download version .py files from main branch (ALPHA/BETA/RELEASE/PRERELEASE)."""
     try:
         tree_url = "https://api.github.com/repos/Notxnorand73/LUCIFER/git/trees/main?recursive=1"
         response = requests.get(tree_url, timeout=15)
@@ -87,7 +80,6 @@ def download_circle_versions():
         if not version_files:
             print("NO MATCHING VERSION FILES FOUND.")
             return
-        # Always write beside this script (e.g. C:\Lucifer), not caller CWD.
         download_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
         downloaded = 0
         attempted = 0
@@ -111,7 +103,6 @@ def download_circle_versions():
 class LuciferInterpreter:
     def __init__(self, code, lucifer=False):
         self.code = code
-        # Filter out empty lines and comments
         self.lines = [line.strip() for line in code.split('\n') if line.strip()]
         self.vars = {"SIN": 0, "ZEN": 0}
         if lucifer:
@@ -123,28 +114,22 @@ class LuciferInterpreter:
     def _find_gates(self):
         for i, line in enumerate(self.lines):
             if line.startswith("GATE:"):
-                # Captures ID after "GATE:"
                 gate_id = line.split(":", 1)[1].strip()
                 self.gates[gate_id] = i
     def _get_val(self, expr):
-        """Evaluates an expression or returns a literal."""
         expr = str(expr).strip()
-        # Replace variable names with their current values
         temp_expr = expr
         for var_name, var_value in self.vars.items():
             temp_expr = temp_expr.replace(var_name, str(var_value))
         try:
-            # Safely evaluate simple math (+ - * / %)
             return int(eval(temp_expr, {"__builtins__": None}, {}))
         except:
-            # If it's not math, return as string (for PRIDE)
             return expr
     def run(self):
         self.pc = 0
         while self.pc < len(self.lines):
             line = self.lines[self.pc]
             jumped = False
-            # If we hit a closing brace, just move on (unless it's a TREACH loop)
             if line == "}":
                 if self.loop_stack:
                     self.pc = self.loop_stack[-1]
@@ -160,8 +145,6 @@ class LuciferInterpreter:
                     gate_id = args[0]
                     if gate_id in self.gates:
                         self.pc = self.gates[gate_id]
-                        # We don't clear loop_stack here so TREACH still works,
-                        # but we effectively 'teleport' the PC.
                         jumped = True
                 if cmd == "GREED":
                     self.vars[args[0]] = self._get_val(args[1])
@@ -181,17 +164,14 @@ class LuciferInterpreter:
                 elif cmd == "SLOTH":
                     time.sleep(self._get_val(args[0]))
             elif line.startswith("JUDGE"):
-                # Clean the expression of the command and the brace
                 expr_str = line.replace("JUDGE", "").replace("{", "").strip()
                 if not self._get_val(expr_str):
-                    # IF FALSE: Find the matching '}' and jump PAST it
                     depth = 1
                     while depth > 0 and self.pc < len(self.lines) - 1:
                         self.pc += 1
                         if "{" in self.lines[self.pc]: depth += 1
                         if "}" in self.lines[self.pc]: depth -= 1
-                    jumped = True # Landed on '}', next cycle will move past it
-                # IF TRUE: Just move to the next line (the first line inside the { )
+                    jumped = True
             elif line.startswith("TREACH"):
                 self.loop_stack.append(self.pc)
             elif line.startswith("LIMBO"):
@@ -200,7 +180,6 @@ class LuciferInterpreter:
                     self.pc += 1
             elif line.startswith("WRATH"):
                 return
-            # Only move forward if we didn't just jump to a GATE
             if not jumped:
                 self.pc += 1
     def repl(self):
@@ -305,7 +284,6 @@ print(image)'''
                     timeout = random.randint(1, 50)
                     if timeout == 25:
                         raise TimeoutError("...")
-
                 time_left = 600-i
                 if time_left == 426:
                     print("~ 666 ~")
